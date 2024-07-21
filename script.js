@@ -32,6 +32,12 @@ document.addEventListener('DOMContentLoaded', () => {
             //append task item
             taskList.appendChild(taskItem);
 
+            if (save) {
+                const storedTasks = JSON.parse(localStorage.getItem('tasks') || '[]');
+                storedTasks.push(taskText);
+                localStorage.setItem('tasks', JSON.stringify(storedTasks));
+            }
+
             //clear the task input
             taskInput.value = "";
         }
@@ -43,4 +49,23 @@ document.addEventListener('DOMContentLoaded', () => {
             addTask();
         }
     });
+
+    // function to load tasks from local storgae 
+   function loadTasks(){
+    const storedTasks =  JSON.parse(localStorage.getItem('tasks')) || []; 
+    storedTasks.forEach(taskText=> { 
+        addTask(taskText, false)
+        
+    });
+   } 
+   //to remove task  
+   function removeTask(){
+    let tasks =  JSON.parse(localStorage.getItem('tasks')) || [];  
+    const index = tasks.indexOf(taskText); 
+    if(index > -1){
+        tasks.splice(index, 1);
+    } 
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+   }
+
 });
